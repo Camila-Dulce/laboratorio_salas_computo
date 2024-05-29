@@ -30,6 +30,7 @@ DELETE http://127.0.0.1:8000/api/ingresos/1
 ### Consultar Ingresos en un Rango de Fechas
 GET http://127.0.0.1:8000/api/ingresos
 Content-Type: application/json
+
 {
   "startDate": "2024-05-01",
   "endDate": "2024-05-29"
@@ -38,6 +39,7 @@ Content-Type: application/json
 ### Filtrar Ingresos
 GET http://127.0.0.1:8000/api/ingresos
 Content-Type: application/json
+
 {
   "codigoEstudiante": "123456",
   "idPrograma": 1,
