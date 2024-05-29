@@ -36,7 +36,7 @@ Content-Type: application/json
 }'
 
 ### Filtrar Ingresos
-GET Thttp://127.0.0.1:8000/api/ingresos
+GET http://127.0.0.1:8000/api/ingresos
 Content-Type: application/json
 {
   "codigoEstudiante": "123456",
