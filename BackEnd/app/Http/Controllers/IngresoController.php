@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ingreso;
+use App\Models\HorarioSala;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class IngresoController extends Controller
 {
-    // Cargar ingresos del día actual
     public function index()
     {
         $today = Carbon::now()->toDateString();
@@ -16,45 +16,47 @@ class IngresoController extends Controller
         return response()->json(['data' => $ingresos]);
     }
 
-    // Consultar ingresos en un rango de fechas
-    public function getByDateRange(Request $request)
+    public function store(Request $request)
     {
-        $startDate = Carbon::parse($request->input('startDate'));
-        $endDate = Carbon::parse($request->input('endDate'));
+        $validator = app('validator')->make($request->all(), [
+            'codigoEstudiante' => 'required|string|max:255',
+            'nombreEstudiante' => 'required|string|max:255',
+            'idPrograma' => 'required|integer|exists:programas,id',
+            'fechaIngreso' => 'required|date',
+            'horaIngreso' => 'required|date_format:H:i',
+            'idResponsable' => 'required|integer|exists:responsables,id',
+            'idSala' => 'required|integer|exists:salas,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
         
-        $ingresos = Ingreso::whereBetween('fechaIngreso', [$startDate, $endDate])->get();
-        return response()->json(['data' => $ingresos]);
+        $fechaIngreso = Carbon::parse($request->input('fechaIngreso'));
+        $horaIngreso = Carbon::parse($request->input('horaIngreso'));
+        $diaSemana = $fechaIngreso->englishDayOfWeek;
+    
+        if (!$this->esHorarioPermitido($diaSemana, $horaIngreso)) {
+            return response()->json(['data' => 'Horario no permitido'], 403);
+        }
+    
+        if ($this->salaOcupada($request->input('idSala'), $diaSemana, $horaIngreso)) {
+            return response()->json(['data' => 'La sala está ocupada'], 403);
+        }
+    
+        $ingreso = new Ingreso();
+        $ingreso->codigoEstudiante = $request->input('codigoEstudiante');
+        $ingreso->nombreEstudiante = $request->input('nombreEstudiante');
+        $ingreso->idPrograma = $request->input('idPrograma');
+        $ingreso->fechaIngreso = $fechaIngreso;
+        $ingreso->horaIngreso = $horaIngreso;
+        $ingreso->idResponsable = $request->input('idResponsable');
+        $ingreso->idSala = $request->input('idSala');
+        $ingreso->save();
+    
+        return response()->json(['data' => $ingreso], 201);
     }
-
-    // Filtrar por código de estudiante, programa o persona que registra el ingreso
-    public function filter(Request $request)
-    {
-        $query = Ingreso::query();
-
-        if ($request->has('codigoEstudiante')) {
-            $query->where('codigoEstudiante', $request->input('codigoEstudiante'));
-        }
-
-        if ($request->has('idPrograma')) {
-            $query->where('idPrograma', $request->input('idPrograma'));
-        }
-
-        if ($request->has('idResponsable')) {
-            $query->where('idResponsable', $request->input('idResponsable'));
-        }
-
-        $ingresos = $query->get();
-        return response()->json(['data' => $ingresos]);
-    }
-
-    public function show($id)
-    {
-        $ingreso = Ingreso::find($id);
-        if (!$ingreso) {
-            return response()->json(['data' => 'No se encuentra registrado el ingreso'], 404);
-        }
-        return response()->json(['data' => $ingreso]);
-    }
+    
 
     public function update($id, Request $request)
     {
@@ -65,7 +67,6 @@ class IngresoController extends Controller
         ]);
 
         $ingreso = Ingreso::find($id);
-
         if (!$ingreso) {
             return response()->json(['data' => 'No se encuentra registrado el ingreso'], 404);
         }
@@ -73,7 +74,7 @@ class IngresoController extends Controller
         if ($request->has('horaSalida')) {
             $horaSalida = Carbon::parse($request->input('horaSalida'));
             $fechaIngreso = Carbon::parse($ingreso->fechaIngreso);
-            $diaSemana = $fechaIngreso->dayName;
+            $diaSemana = $fechaIngreso->englishDayOfWeek;
 
             if (!$this->esHorarioPermitido($diaSemana, $horaSalida)) {
                 return response()->json(['data' => 'Horario no permitido'], 403);
@@ -84,45 +85,9 @@ class IngresoController extends Controller
 
         $ingreso->codigoEstudiante = $request->input('codigoEstudiante');
         $ingreso->nombreEstudiante = $request->input('nombreEstudiante');
-        $ingreso->save(); // Esto actualizará automáticamente el campo `updated_at`
-
-        return response()->json(['data' => $ingreso]);
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'codigoEstudiante' => 'required|string|max:255',
-            'nombreEstudiante' => 'required|string|max:255',
-            'idPrograma' => 'required|integer|exists:programas,id',
-            'fechaIngreso' => 'required|date',
-            'horaIngreso' => 'required|date_format:H:i',
-            'idResponsable' => 'required|integer|exists:responsables,id',
-            'idSala' => 'required|integer|exists:salas,id',
-        ]);
-
-        $ingreso = new Ingreso();
-        $ingreso->codigoEstudiante = $request->input('codigoEstudiante');
-        $ingreso->nombreEstudiante = $request->input('nombreEstudiante');
-        $ingreso->idPrograma = $request->input('idPrograma');
-        $ingreso->fechaIngreso = Carbon::parse($request->input('fechaIngreso'));
-        $ingreso->horaIngreso = Carbon::parse($request->input('horaIngreso'));
-        $ingreso->idResponsable = $request->input('idResponsable');
-        $ingreso->idSala = $request->input('idSala');
         $ingreso->save();
 
-        return response()->json(['data' => $ingreso], 201);
-    }
-
-
-    public function destroy($id)
-    {
-        $ingreso = Ingreso::find($id);
-        if (!$ingreso) {
-            return response()->json(['data' => 'No se encuentra registrado el ingreso'], 404);
-        }
-        $ingreso->delete();
-        return response()->json(['data' => 'Ingreso eliminado']);
+        return response()->json(['data' => $ingreso]);
     }
 
     private function esHorarioPermitido($diaSemana, $hora)
@@ -145,10 +110,24 @@ class IngresoController extends Controller
     {
         return HorarioSala::where('idSala', $idSala)
             ->where('dia', $dia)
-            ->where(function($query) use ($hora) {
+            ->where(function ($query) use ($hora) {
                 $query->where('horaInicio', '<=', $hora)
                       ->where('horaFin', '>=', $hora);
             })
             ->exists();
     }
+
+    private function validateRequest(Request $request)
+    {
+        return $request->validate([
+            'codigoEstudiante' => 'required|string|max:255',
+            'nombreEstudiante' => 'required|string|max:255',
+            'idPrograma' => 'required|integer|exists:programas,id',
+            'fechaIngreso' => 'required|date',
+            'horaIngreso' => 'required|date_format:H:i',
+            'idResponsable' => 'required|integer|exists:responsables,id',
+            'idSala' => 'required|integer|exists:salas,id',
+        ]);
+    }
 }
+
