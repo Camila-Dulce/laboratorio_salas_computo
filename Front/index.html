@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contactos</title>
+  </head>
+  <body>
+    <h1>Lista de contactos</h1>
+    <table id="contactosTable">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Telefono</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="4">No hay informacion</td>
+        </tr>
+      </tbody>
+    </table>
+    <form name="IngresosEstForm" id="IngresosEstForm">
+        <div>
+            <label>codigoEstudiante</label>
+            <input type="text" name="codigoEstudiante">
+        </div>
+        <div>
+            <label>nombreEstudiante</label>
+            <input type="text" name="nombreEstudiante">
+        </div>
+        <div>
+            <label>idPrograma</label>
+            <input type="number" name="idPrograma">
+        </div>
+        <div>
+            <label>fechaIngreso</label>
+            <input type="datetime-local" name="fechaIngreso">
+        </div>
+        <div>
+            <label>horaIngreso</label>
+            <input type="datetime-local" name="horaIngreso">
+        </div>
+        <div>
+            <label>idResponsable</label>
+            <input type="number" name="idResponsable">
+        </div>
+        <div>
+            <label>idSala</label>
+            <input type="number" name="idSala">
+        </div>
+        <div>
+        <div>
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+    <script src="js/reguistroingresoestudiante.js"></script>
+  </body>
+</html>
