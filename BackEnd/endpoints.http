@@ -5,6 +5,7 @@ Content-Type: text/html
 ### Crear un nuevo registro
 POST http://127.0.0.1:8000/api/ingresos
 Content-Type: application/json"
+
 {
   "codigoEstudiante": "123456",
   "nombreEstudiante": "Juan Perez",
@@ -13,16 +14,17 @@ Content-Type: application/json"
   "horaIngreso": "08:00",
   "idResponsable": 2,
   "idSala": 3
-}
+}'
 
 ### Actualizar un registro
 PUT http://127.0.0.1:8000/api/ingresos
 Content-Type: application/json
+
 {
   "codigoEstudiante": "654321",
   "nombreEstudiante": "Maria Lopez",
   "horaSalida": "10:00"
-}
+}'
 
 ### Eliminar un registro
 DELETE http://127.0.0.1:8000/api/ingresos/1

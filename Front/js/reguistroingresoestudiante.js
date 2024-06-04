@@ -1,4 +1,4 @@
-const urlIngresosEst = "http://127.0.0.1:8000/api/ingreso";
+const urlIngresosEst = "http://127.0.0.1:8000/api/ingresos";
 let ingresosEst = [];
 
 function consultarIngresosEst() {
@@ -26,14 +26,15 @@ function cargarTablaIngresosEst() {
       html += "   <td>" + item.idResponsable + "</td>";
       html += "   <td>" + item.idSala + "</td>";
       html += "   <td>";
-      html += "       <button>Modificar</button>";
-      html += `       <button onClick="eliminarIngresosEst(${item.id})">Eliminar</button>`;
+      html += `      <button onClick="modificarIngresosEst(${item.id})>Hora Salida</button>`;
+      html += `      <button onClick="eliminarIngresosEst(${item.id})">Eliminar</button>`;
       html += "   </td>";
       html += "</tr>";
       return html;
     })
     .join("");
 }
+
 
 consultarIngresosEst();
 
@@ -61,6 +62,10 @@ function registrarIngresosEst() {
       ingresosEst.push(newIngresosEst);
       cargarTablaIngresosEst();
     });
+}
+
+function modificarIngresosEst(id) {
+
 }
 
 function eliminarIngresosEst(id) {
