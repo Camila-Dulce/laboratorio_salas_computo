@@ -17,7 +17,7 @@ Content-Type: application/json"
 }'
 
 ### Actualizar un registro
-PUT http://127.0.0.1:8000/api/ingresos
+PUT http://127.0.0.1:8000/api/ingresos/1
 Content-Type: application/json
 
 {

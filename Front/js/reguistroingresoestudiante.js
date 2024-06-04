@@ -26,6 +26,7 @@ function cargarTablaIngresosEst() {
       html += "   <td>" + item.idResponsable + "</td>";
       html += "   <td>" + item.idSala + "</td>";
       html += "   <td>";
+      html += `      <button onClick="modificarIngresosEst(${item.id})">Eliminar</button>`;
       html += `      <button onClick="eliminarIngresosEst(${item.id})">Eliminar</button>`;
       html += "   </td>";
       html += "</tr>";
@@ -39,6 +40,7 @@ consultarIngresosEst();
 
 function registrarIngresosEst() {
   const form = document.forms["IngresosEstForm"];
+  
   const ingresosEstData = {
     codigoEstudiante: form["codigoEstudiante"].value,
     nombreEstudiante: form["nombreEstudiante"].value,
@@ -63,9 +65,37 @@ function registrarIngresosEst() {
     });
 }
 
-function modificarIngresosEst(id) {
+  function modificarIngresosEst(id) {
+    const salida = document.getElementById("horasalida");
+    salida.style.display = "block";
+    salida.innerHTML = '<form name="salida" id="salida"><div><label>horaIngreso</label><input type="time" name="horaSalida"></div><div><button type="submit">Guardar</button></div></form>';
+    const form = document.forms["salida"];
+  
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const ingresosEstData = {
+        horaSalida: form["horaSalida"].value,
+      };
+      fetch(urlIngresosEst + "/" + id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ingresosEstData),
+      })
+      .then((resp) => resp.json())
+      .then((body) => {
+        const newIngresosEst = body.data;
+        ingresosEst.push(newIngresosEst);
+        cargarTablaIngresosEst();
+        salida.style.display = "none"; // Ocultar el formulario después de usarlo
+      })
+      .catch((error) => {
+        console.error('Error al modificar ingreso:', error);
+      });
+    });
+  }
 
-}
 
 function eliminarIngresosEst(id) {
   fetch(urlIngresosEst + "/" + id, { method: "DELETE" })
