@@ -26,7 +26,6 @@ function cargarTablaIngresosEst() {
       html += "   <td>" + item.idResponsable + "</td>";
       html += "   <td>" + item.idSala + "</td>";
       html += "   <td>";
-      html += `      <button onClick="modificarIngresosEst(${item.id})>Hora Salida</button>`;
       html += `      <button onClick="eliminarIngresosEst(${item.id})">Eliminar</button>`;
       html += "   </td>";
       html += "</tr>";
@@ -69,7 +68,7 @@ function modificarIngresosEst(id) {
 }
 
 function eliminarIngresosEst(id) {
-  fetch(urlIngresosEst + "/" + id, { method: "delete" })
+  fetch(urlIngresosEst + "/" + id, { method: "DELETE" })
     .then((resp) => resp.json())
     .then((body) => {
       const msg = body.data;
