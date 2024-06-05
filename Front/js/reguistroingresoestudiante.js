@@ -15,7 +15,7 @@ function cargarTablaIngresosEst() {
   const tbody = document
     .getElementById("contactosTable")
     .getElementsByTagName("tbody")[0];
-  tbody.innerHTML = ingresosEst
+    tbody.innerHTML = ingresosEst
     .map((item) => {
       let html = "<tr>";
       html += "   <td>" + item.codigoEstudiante + "</td>";
@@ -26,7 +26,7 @@ function cargarTablaIngresosEst() {
       html += "   <td>" + item.idResponsable + "</td>";
       html += "   <td>" + item.idSala + "</td>";
       html += "   <td>";
-      html += `      <button onClick="modificarIngresosEst(${item.id})">Eliminar</button>`;
+      html += `      <button onClick="modificarIngresosEst(${item.id})">Salida</button>`;
       html += `      <button onClick="eliminarIngresosEst(${item.id})">Eliminar</button>`;
       html += "   </td>";
       html += "</tr>";
@@ -68,7 +68,6 @@ function registrarIngresosEst() {
   function modificarIngresosEst(id) {
     const salida = document.getElementById("horasalida");
     salida.style.display = "block";
-    salida.innerHTML = '<form name="salida" id="salida"><div><label>horaIngreso</label><input type="time" name="horaSalida"></div><div><button type="submit">Guardar</button></div></form>';
     const form = document.forms["salida"];
   
     form.addEventListener("submit", (e) => {
@@ -76,6 +75,7 @@ function registrarIngresosEst() {
       const ingresosEstData = {
         horaSalida: form["horaSalida"].value,
       };
+      console.log(form["horaSalida"].value);
       fetch(urlIngresosEst + "/" + id, {
         method: "PUT",
         headers: {

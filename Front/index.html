@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css">
     <title>Hola</title>
   </head>
   <body>
@@ -25,18 +26,29 @@
         </tr>
       </tbody>
     </table>
+    <div id="horasalida" style="display: none;">
+      <form name="salida" id="salida">
+        <div>
+          <label>horaIngreso</label>
+          <input type="time" name="horaSalida" required>
+        </div>
+        <div>
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
     <form name="IngresosEstForm" id="IngresosEstForm">
         <div>
             <label>codigoEstudiante</label>
-            <input type="text" name="codigoEstudiante">
+            <input type="text" name="codigoEstudiante" required>
         </div>
         <div>
             <label>nombreEstudiante</label>
-            <input type="text" name="nombreEstudiante">
+            <input type="text" name="nombreEstudiante" required>
         </div>
         <div>
             <label>idPrograma</label>
-            <select name="idPrograma">
+            <select name="idPrograma" required>
               <option value="1">ing.Sistemas</option>
               <option value="2">Ing.Multimedia</option>
               <option value="3">Arquitectura</option>
@@ -45,15 +57,15 @@
         </div>
         <div>
             <label>fechaIngreso</label>
-            <input type="date" name="fechaIngreso">
+            <input type="date" name="fechaIngreso" required>
         </div>
         <div>
             <label>horaIngreso</label>
-            <input type="time" name="horaIngreso">
+            <input type="time" name="horaIngreso" required>
         </div>
         <div>
             <label>idResponsable</label>
-            <select name="idResponsable">
+            <select name="idResponsable" required>
               <option value="1">Juan Perez</option>
               <option value="2">Ana Lopez</option>
               <option value="3">Juan Perez</option>
@@ -62,7 +74,7 @@
         </div>
         <div>
             <label>idSala</label>
-            <select name="idSala">
+            <select name="idSala" required>
               <option value="1">201G</option>
               <option value="2">202H</option>
               <option value="3">203I</option>
@@ -75,17 +87,6 @@
             <button type="submit">Guardar</button>
         </div>
     </form>
-    <div id="horasalida" style="display: none;">
-      <form name="salida" id="salida">
-        <div>
-          <label>horaIngreso</label>
-          <input type="time" name="horaSalida">
-        </div>
-        <div>
-          <button type="submit">Guardar</button>
-        </div>
-      </form>
-    </div>
     <script src="js/reguistroingresoestudiante.js"></script>
   </body>
 </html>
