@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ingreso;
+use App\Models\HorarioSala; 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -172,5 +173,4 @@ class IngresoController extends Controller
             ->exists();
     }
 }
-
 

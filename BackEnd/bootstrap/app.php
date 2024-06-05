@@ -29,15 +29,13 @@ $app->singleton(
 $app->configure('app');
 
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
+    Fruitcake\Cors\HandleCors::class,
 ]);
+
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
-return $app;
-
-
