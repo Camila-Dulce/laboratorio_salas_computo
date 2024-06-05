@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hola</title>
+  </head>
+  <body>
+    <h1>Lista de contactos</h1>
+    <table id="contactosTable">
+      <thead>
+        <tr>
+          <th>codigoEstudiante</th>
+          <th>nombreEstudiante</th>
+          <th>idPrograma</th>
+          <th>fechaIngreso</th>
+          <th>horaIngreso</th>
+          <th>idResponsable</th>
+          <th>idSala</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">No hay información</td>
+        </tr>
+      </tbody>
+    </table>
+    <form name="IngresosEstForm" id="IngresosEstForm">
+        <div>
+            <label>codigoEstudiante</label>
+            <input type="text" name="codigoEstudiante">
+        </div>
+        <div>
+            <label>nombreEstudiante</label>
+            <input type="text" name="nombreEstudiante">
+        </div>
+        <div>
+            <label>idPrograma</label>
+            <select name="idPrograma">
+              <option value="1">ing.Sistemas</option>
+              <option value="2">Ing.Multimedia</option>
+              <option value="3">Arquitectura</option>
+              <option value="4">Contabilidad</option>
+            </select>
+        </div>
+        <div>
+            <label>fechaIngreso</label>
+            <input type="date" name="fechaIngreso">
+        </div>
+        <div>
+            <label>horaIngreso</label>
+            <input type="time" name="horaIngreso">
+        </div>
+        <div>
+            <label>idResponsable</label>
+            <select name="idResponsable">
+              <option value="1">Juan Perez</option>
+              <option value="2">Ana Lopez</option>
+              <option value="3">Juan Perez</option>
+              <option value="4">Ana Lopez</option>
+            </select>
+        </div>
+        <div>
+            <label>idSala</label>
+            <select name="idSala">
+              <option value="1">201G</option>
+              <option value="2">202H</option>
+              <option value="3">203I</option>
+              <option value="4">301G</option>
+              <option value="5">302H</option>
+              <option value="6">303I</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+    <div id="horasalida" style="display: none;">
+      <form name="salida" id="salida">
+        <div>
+          <label>horaIngreso</label>
+          <input type="time" name="horaSalida">
+        </div>
+        <div>
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+    <script src="js/reguistroingresoestudiante.js"></script>
+  </body>
+</html>

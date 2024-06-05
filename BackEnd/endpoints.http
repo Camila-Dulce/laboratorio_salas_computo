@@ -20,7 +20,33 @@ Content-Type: application/json"
 GET http://127.0.0.1:8000/api/horario_salas
 Content-Type: application/json
 
+### Actualizar un registro
+PUT http://127.0.0.1:8000/api/ingresos/1
+Content-Type: application/json
+
+{
+  "codigoEstudiante": "654321",
+  "nombreEstudiante": "Maria Lopez",
+  "horaSalida": "10:00"
+}'
+
 ### Consultar horario de salas prestadas
 POST http://127.0.0.1:8000/api/horario_salas
 Content-Type: application/json
+
+{
+  "startDate": "2024-05-01",
+  "endDate": "2024-05-29"
+}'
+
+### Filtrar Ingresos
+GET http://127.0.0.1:8000/api/ingresos
+Content-Type: application/json
+
+{
+  "codigoEstudiante": "123456",
+  "idPrograma": 1,
+  "idResponsable": 2
+}'
+
 

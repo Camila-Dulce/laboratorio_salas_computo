@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Ingreso;
 use App\Models\HorarioSala;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class IngresoController extends Controller
@@ -19,8 +19,8 @@ class IngresoController extends Controller
     public function store(Request $request)
     {
         $validator = app('validator')->make($request->all(), [
-            'codigoEstudiante' => 'required|string|max:255',
-            'nombreEstudiante' => 'required|string|max:255',
+            'codigoEstudiante' => 'required|string|max:10',
+            'nombreEstudiante' => 'required|string|max:250',
             'idPrograma' => 'required|integer|exists:programas,id',
             'fechaIngreso' => 'required|date',
             'horaIngreso' => 'required|date_format:H:i',
